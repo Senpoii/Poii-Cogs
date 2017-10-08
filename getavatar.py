@@ -36,7 +36,8 @@ class getavatar:
         try:
             async with aiohttp.get(avatar_url) as r:
                 image = await r.content.read()
-            with open('data/drawing/temp_avatar', 'wb') as f:
+            with open('data/drawing/temp_avatar', 'wb') as f: #using a folder from my old Red fork that is out of service. 
+                                                              #TODO: remove placeholders.
                 f.write(image)
                 success = True
         except Exception as e:
@@ -44,12 +45,15 @@ class getavatar:
             print(e)
         if success:
             avatar_image = Image.open('data/drawing/temp_avatar').convert('RGBA')
-            avatar_image = avatar_image.resize(size=(500, 500))
+            avatar_image = avatar_image.resize(size=(500, 500)) #Takes user avatar and enlarges it. 
+                                                                #I need a way to reduce quality loss.
         d.rectangle([(0, 0), (500, 500)], fill=(0, 0, 0, 0))
         process.paste(avatar_image, (0, 0))
         result = Image.alpha_composite(result, process)
         result.save('data/getavatar/temp.png', 'PNG', quality=100)
         await self.bot.send_file(ctx.message.channel, 'data/getavatar/temp.png')
+        #I forgot to add os.remove. You can add it yourself or refer to RIP.py to add the line. 
+        #Will save yourself not even a fucking kb of space. Just preference.
 
 def setup(bot):
     # check_folders()
