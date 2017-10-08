@@ -23,14 +23,14 @@ except:
     pil_available = False
 
 
-class insult:
-    """Poii's Insult cog."""
+class random:
+    """Poii's showcase of calling JSON file and using random choices."""
 
     def __init__(self, bot):
         self.bot = bot
-        self.insults = dataIO.load_json('data/insult/insults.json') #Calls the insult JSON
-        self.count = dataIO.load_json('data/insult/insults.json')
-        self.ratings = dataIO.load_json('data/insult/insults.json')  # Defines the JSON file into the command.
+        self.insults = dataIO.load_json('data/insult/insults.json') #Insults
+        self.count = dataIO.load_json('data/insult/insults.json') #1-100 for lovemeter
+        self.ratings = dataIO.load_json('data/insult/insults.json')  # ratings
 
 
     @commands.command(pass_context=True)
@@ -59,9 +59,9 @@ class insult:
     async def rate(self, ctx, user : discord.Member):
         """rate <user>"""
 
-        ratings = dataIO.load_json('data/insult/insults.json') #Defines the JSON file into the command.
+        ratings = dataIO.load_json('data/insult/insults.json')
 
-        author = ctx.message.author
+        author = ctx.message.author #Or else the use of author.name won't work.
 
         await self.bot.say(author.name + ", You and " + user.mention + " are rated as ***{}*** together.".format(randchoice(self.ratings['rate'])))
 
@@ -70,5 +70,5 @@ class insult:
 
 
 def setup(bot):
-    n = insult(bot)
+    n = random(bot)
     bot.add_cog(n)
